@@ -3,583 +3,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TikTok Downloader</title>
+    <title>TikTok Downloader Pro | Rerezz Official</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #007bff;
-            --primary-hover-color: #0056b3;
-            --background-color: #f4f7f9;
-            --card-background-color: #ffffff;
-            --text-color: #212529;
-            --text-muted-color: #6c757d;
-            --border-color: #dee2e6;
-            --shadow-color: rgba(0, 0, 0, 0.08);
-            --success-color: #198754;
-            --error-color: #dc3545;
+            --primary: #00f2ea;
+            --secondary: #ff0050;
+            --accent: #ffffff;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --glass: rgba(255, 255, 255, 0.8);
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            --transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         body.dark-mode {
-            --primary-color: #0d6efd;
-            --primary-hover-color: #3b82f6;
-            --background-color: #121212;
-            --card-background-color: #1e1e1e;
-            --text-color: #e9ecef;
-            --text-muted-color: #adb5bd;
-            --border-color: #495057;
-            --shadow-color: rgba(0, 0, 0, 0.25);
+            --primary: #00f2ea;
+            --secondary: #ff0050;
+            --bg: #050505;
+            --card-bg: #0f0f0f;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --glass: rgba(15, 15, 15, 0.8);
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: var(--transition);
+            overflow-x: hidden;
         }
 
-        .theme-switcher {
+        body::before {
+            content: "";
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 10% 20%, rgba(0, 242, 234, 0.05) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(255, 0, 80, 0.05) 0%, transparent 40%);
+            z-index: -1;
+        }
+
+        .navbar {
+            width: 100%;
+            max-width: 1200px;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -1px;
+        }
+
+        .brand-logo i {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            filter: drop-shadow(2px 0px 0px var(--primary));
+        }
+
+        .theme-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            padding: 10px;
-            background-color: var(--card-background-color);
-            border-radius: 50%;
-            box-shadow: 0 4px 12px var(--shadow-color);
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            font-size: 1.25rem;
-            z-index: 1000;
-        }
-        
-        .theme-switcher:hover {
-            transform: scale(1.1);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
-        #theme-icon.bi-sun-fill {
-            display: none;
+        .theme-btn:hover {
+            transform: translateY(-3px) rotate(10deg);
+            border-color: var(--primary);
         }
 
-        body.dark-mode #theme-icon.bi-sun-fill {
-            display: inline-block;
+        .theme-btn i { font-size: 1.3rem; }
+        #sun-icon { display: none; }
+        body.dark-mode #sun-icon { display: block; }
+        body.dark-mode #moon-icon { display: none; }
+
+        .hero {
+            width: 100%;
+            max-width: 750px;
+            text-align: center;
+            padding: 40px 20px;
         }
-        
-        body.dark-mode #theme-icon.bi-moon-stars-fill {
-            display: none;
+
+        .hero h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
         }
-        
-        .container {
+
+        .hero h2 span {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .main-card {
             width: 100%;
             max-width: 650px;
-            background-color: var(--card-background-color);
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(20px);
+            position: relative;
+            z-index: 10;
+        }
+
+        .search-box {
+            display: flex;
+            background: var(--bg);
+            border: 1px solid var(--border);
             border-radius: 20px;
-            box-shadow: 0 10px 40px var(--shadow-color);
-            padding: 30px 40px;
-            transition: background-color 0.3s ease;
-            border: 1px solid var(--border-color);
+            padding: 8px;
+            gap: 10px;
+            transition: var(--transition);
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 30px;
+        .search-box:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 242, 234, 0.1);
         }
 
-        header h1 {
-            font-size: 2.2rem;
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: var(--text);
+            width: 100%;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 16px;
             font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(255, 0, 80, 0.2);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #status-area {
+            margin-top: 25px;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .result-panel {
+            margin-top: 40px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .video-wrapper {
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            background: #000;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            margin-bottom: 25px;
+            aspect-ratio: 16/9;
+        }
+
+        .video-wrapper video { width: 100%; height: 100%; }
+
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .meta-card {
+            background: var(--bg);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+
+        .meta-card i {
+            display: block;
+            font-size: 1.5rem;
             margin-bottom: 8px;
+            color: var(--secondary);
+        }
+
+        .meta-card span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .meta-card b {
+            display: block;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .dl-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .dl-btn {
+            padding: 18px;
+            border-radius: 18px;
+            text-decoration: none;
+            font-weight: 800;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-        }
-        
-        header h1 i {
-            color: var(--primary-color);
+            transition: var(--transition);
         }
 
-        header p {
-            font-size: 1.05rem;
-            color: var(--text-muted-color);
-        }
+        .dl-video { background: var(--text); color: var(--card-bg); }
+        .dl-audio { background: var(--primary); color: #000; }
 
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
+        .dl-btn:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
 
-        #tiktok-url {
-            flex-grow: 1;
-            padding: 14px 20px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1rem;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        #tiktok-url:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-color) 25%, transparent);
-        }
-
-        #submit-btn {
-            padding: 14px 24px;
-            border: none;
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-width: 130px;
-        }
-        
-        #submit-btn:hover {
-            background-color: var(--primary-hover-color);
-            transform: translateY(-2px);
-        }
-        
-        #submit-btn:disabled {
-            background-color: var(--text-muted-color);
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        #status-message {
-            text-align: center;
-            margin-top: 20px;
-            font-weight: 500;
-            min-height: 24px;
-        }
-
-        #result-container {
-            margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 30px;
-            animation: fadeIn 0.5s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .video-preview video {
-            width: 100%;
-            border-radius: 12px;
-            background-color: #000;
-            margin-bottom: 20px;
-        }
-
-        .video-info h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            line-height: 1.5;
-            font-weight: 600;
-        }
-
-        .author-info {
-            background-color: var(--background-color);
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .author-info p {
-            font-size: 0.95rem;
-        }
-
-        .stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .stat-item {
-            background-color: var(--background-color);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: 500;
-        }
-        
-        .stat-item i {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .stat-item .bi-heart-fill {
-            color: #ff4d6d;
-        }
-        
-        .stat-item .bi-eye-fill {
-            color: #4361ee;
-        }
-        
-        .audio-player-container {
-            margin-top: 20px;
-        }
-
-        .audio-player-container p {
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        audio {
-            width: 100%;
-        }
-
-        .download-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px;
-            text-decoration: none;
-            color: white;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background-color 0.2s, transform 0.2s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-        }
-
-        .btn-primary {
-            background-color: var(--primary-color);
-        }
-        .btn-primary:hover {
-            background-color: var(--primary-hover-color);
-        }
-
-        .btn-secondary {
-            background-color: var(--success-color);
-        }
-        .btn-secondary:hover {
-            background-color: #157347;
-        }
-
-        .loader {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: #fff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
+        .footer-sec {
             width: 100%;
             max-width: 650px;
+            margin: 60px 0 100px;
+            text-align: center;
         }
 
-        .footer-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-
-        .social-links {
+        .social-row {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 12px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
 
-        .social-link {
-            display: inline-flex;
+        .social-pill {
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            color: white;
+            display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px 20px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 500;
-            color: #fff;
-            transition: transform 0.2s ease, filter 0.2s ease;
+            transition: var(--transition);
         }
 
-        .social-link:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-        }
+        .social-pill:hover { transform: scale(1.05); filter: brightness(1.1); }
+        .wa-c { background: #075e54; }
+        .wa-g { background: #25d366; }
+        .yt { background: #ff0000; }
 
-        .social-link.whatsapp-channel { background-color: #128C7E; }
-        .social-link.whatsapp-group { background-color: #25D366; }
-        .social-link.youtube { background-color: #FF0000; }
-
-        .social-link i {
-            font-size: 1.3rem;
-        }
-        
         .copyright {
-            margin-top: 30px;
-            font-size: 0.9rem;
-            color: var(--text-muted-color);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
         }
 
-        @media (max-width: 640px) {
-            body {
-                padding: 10px;
-            }
-            .container, footer {
-                padding-left: 20px;
-                padding-right: 20px;
-            }
-            header h1 {
-                font-size: 1.8rem;
-            }
-            .input-group {
-                flex-direction: column;
-            }
-            .download-buttons, .stats {
-                grid-template-columns: 1fr;
-            }
+        .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3.5px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: rotate 0.8s linear infinite;
+        }
+
+        @keyframes rotate { to { transform: rotate(360deg); } }
+
+        @media (max-width: 600px) {
+            .hero h2 { font-size: 2.2rem; }
+            .dl-grid, .meta-info { grid-template-columns: 1fr; }
+            .search-box { flex-direction: column; padding: 15px; }
+            .btn-submit { width: 100%; justify-content: center; }
+            .main-card { padding: 30px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="theme-switcher" id="theme-toggle">
-        <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
-        <i class="bi bi-sun-fill" id="theme-icon"></i>
-    </div>
+    <nav class="navbar">
+        <div class="brand-logo">
+            <i class="bi bi-tiktok"></i>
+            REREZZ<span>PRO</span>
+        </div>
+        <div class="theme-btn" id="theme-toggle">
+            <i class="bi bi-moon-stars-fill" id="moon-icon"></i>
+            <i class="bi bi-sun-fill" id="sun-icon"></i>
+        </div>
+    </nav>
 
-    <main class="container">
-        <header>
-            <h1><i class="bi bi-tiktok"></i> TikTok Downloader</h1>
-            <p>Unduh video dan audio TikTok tanpa watermark</p>
-        </header>
+    <section class="hero">
+        <h2><span>TikTok</span> Downloader Ultra</h2>
+        <p>Unduh Video Berkualitas HD Tanpa Watermark & MP3 Langsung dari Server Tercepat.</p>
+    </section>
 
-        <form id="tiktok-form">
-            <div class="input-group">
-                <input type="url" id="tiktok-url" placeholder="https://vt.tiktok.com/xxxxxxxx/" required>
-                <button type="submit" id="submit-btn">
-                    <span class="btn-text">
-                        <i class="bi bi-download"></i> Unduh
-                    </span>
-                    <span class="loader" style="display: none;"></span>
+    <main class="main-card">
+        <form id="dl-form">
+            <div class="search-box">
+                <input type="url" id="input-url" placeholder="Tempel tautan TikTok di sini..." required>
+                <button type="submit" id="btn-run" class="btn-submit">
+                    <span id="btn-label">UNDUH</span>
+                    <div id="btn-load" class="spinner" style="display: none;"></div>
                 </button>
             </div>
         </form>
 
-        <div id="status-message"></div>
+        <div id="status-area"></div>
 
-        <section id="result-container" style="display: none;">
-            <div class="video-preview">
-                <video id="video-player" controls preload="metadata"></video>
+        <div id="result-view" class="result-panel" style="display: none;">
+            <div class="video-wrapper">
+                <video id="v-player" controls></video>
             </div>
-            <div class="video-info">
-                <h2 id="video-title"></h2>
-                <div class="author-info">
-                    <p><strong><i class="bi bi-person-fill"></i> Pembuat:</strong> <span id="video-author"></span></p>
-                    <p><strong><i class="bi bi-at"></i> Username:</strong> <span id="video-username"></span></p>
+            
+            <div class="meta-info">
+                <div class="meta-card">
+                    <i class="bi bi-person-circle"></i>
+                    <span>Kreator</span>
+                    <b id="v-author">-</b>
                 </div>
-                <div class="stats">
-                    <div class="stat-item">
-                        <i class="bi bi-heart-fill"></i>
-                        <span id="video-likes"></span> Suka
-                    </div>
-                    <div class="stat-item">
-                        <i class="bi bi-eye-fill"></i>
-                        <span id="video-views"></span> Penayangan
-                    </div>
+                <div class="meta-card">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                    <span>Likes</span>
+                    <b id="v-likes">0</b>
                 </div>
             </div>
-            <div class="audio-player-container">
-                <p><strong><i class="bi bi-music-note-beamed"></i> Audio Original:</strong></p>
-                <audio id="audio-player" controls preload="metadata"></audio>
+
+            <div class="dl-grid">
+                <a id="link-v" href="#" class="dl-btn dl-video">
+                    <i class="bi bi-cloud-arrow-down-fill"></i> VIDEO HD
+                </a>
+                <a id="link-a" href="#" class="dl-btn dl-audio">
+                    <i class="bi bi-music-note-beamed"></i> AUDIO MP3
+                </a>
             </div>
-            <div class="download-buttons">
-                <a id="download-video" href="#" download class="btn btn-primary"><i class="bi bi-camera-video-fill"></i> Video (HD)</a>
-                <a id="download-audio" href="#" download class="btn btn-secondary"><i class="bi bi-music-note"></i> Audio (MP3)</a>
-            </div>
-        </section>
+        </div>
     </main>
-    
-    <footer>
-        <h2 class="footer-title">Ikuti Kami</h2>
-        <div class="social-links">
-            <a href="https://whatsapp.com/channel/0029Vat4lwpKLaHoS0MAwj3Z" target="_blank" class="social-link whatsapp-channel">
-                <i class="bi bi-whatsapp"></i>
-                <span>Saluran Wa</span>
+
+    <footer class="footer-sec">
+        <div class="social-row">
+            <a href="https://whatsapp.com/channel/0029Vat4lwpKLaHoS0MAwj3Z" target="_blank" class="social-pill wa-c">
+                <i class="bi bi-whatsapp"></i> Saluran WA
             </a>
-            <a href="https://chat.whatsapp.com/J2KV9Wydi3v5panKYX3VIv" target="_blank" class="social-link whatsapp-group">
-                <i class="bi bi-whatsapp"></i>
-                <span>Grup Chat</span>
+            <a href="https://chat.whatsapp.com/J2KV9Wydi3v5panKYX3VIv" target="_blank" class="social-pill wa-g">
+                <i class="bi bi-people-fill"></i> Group Hub
             </a>
-            <a href="https://www.youtube.com/@Rerezz-Official" target="_blank" class="social-link youtube">
-                <i class="bi bi-youtube"></i>
-                <span>YouTube</span>
+            <a href="https://www.youtube.com/@Rerezz-Official" target="_blank" class="social-pill yt">
+                <i class="bi bi-youtube"></i> YouTube
             </a>
         </div>
-        <p class="copyright"><b style="color: cyan;">&copy;</b> 2025 TikTok Downloader V1 <b style="color: red;">|</b> By Its Me Rerezz.</p>
+        <p class="copyright">&copy; 2025 Rerezz Official Hub. Developed with Perfection.</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const themeToggle = document.getElementById('theme-toggle');
-            const tiktokForm = document.getElementById('tiktok-form');
-            const urlInput = document.getElementById('tiktok-url');
-            const submitBtn = document.getElementById('submit-btn');
-            const btnText = document.querySelector('.btn-text');
-            const loader = document.querySelector('.loader');
-            const statusMessage = document.getElementById('status-message');
-            const resultContainer = document.getElementById('result-container');
-            const videoPlayer = document.getElementById('video-player');
-            const videoTitle = document.getElementById('video-title');
-            const videoAuthor = document.getElementById('video-author');
-            const videoUsername = document.getElementById('video-username');
-            const videoLikes = document.getElementById('video-likes');
-            const videoViews = document.getElementById('video-views');
-            const audioPlayer = document.getElementById('audio-player');
-            const downloadVideoBtn = document.getElementById('download-video');
-            const downloadAudioBtn = document.getElementById('download-audio');
-            
-            const API_KEY = "8ec6cbac3e";
+        const themeBtn = document.getElementById('theme-toggle');
+        const dlForm = document.getElementById('dl-form');
+        const inputUrl = document.getElementById('input-url');
+        const btnRun = document.getElementById('btn-run');
+        const btnLabel = document.getElementById('btn-label');
+        const btnLoad = document.getElementById('btn-load');
+        const statusArea = document.getElementById('status-area');
+        const resultView = document.getElementById('result-view');
+        
+        const vPlayer = document.getElementById('v-player');
+        const vAuthor = document.getElementById('v-author');
+        const vLikes = document.getElementById('v-likes');
+        const linkV = document.getElementById('link-v');
+        const linkA = document.getElementById('link-a');
 
-            const applyTheme = (theme) => {
-                if (theme === 'dark') {
-                    document.body.classList.add('dark-mode');
-                } else {
-                    document.body.classList.remove('dark-mode');
-                }
-            };
-            
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            applyTheme(savedTheme);
+        const API_KEY = "8ec6cbac3e";
 
-            themeToggle.addEventListener('click', () => {
-                const isDarkMode = document.body.classList.contains('dark-mode');
-                const newTheme = isDarkMode ? 'light' : 'dark';
-                localStorage.setItem('theme', newTheme);
-                applyTheme(newTheme);
-            });
+        if (localStorage.getItem('dark-mode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+        }
 
-            tiktokForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const url = urlInput.value.trim();
-                if (!url) {
-                    showStatus('Harap masukkan URL TikTok yang valid.', 'error');
-                    return;
-                }
-
-                setLoading(true);
-                resultContainer.style.display = 'none';
-                showStatus('Sedang memproses...', 'loading');
-                
-                try {
-                    const targetApiUrl = `https://api.im-rerezz.xyz/api/dl/tiktokv2?url=${encodeURIComponent(url)}&apikey=${API_KEY}`;
-                    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetApiUrl)}`;
-                    
-                    const response = await axios.get(proxyUrl);
-                    
-                    if (response.data && response.data.contents) {
-                        const apiData = JSON.parse(response.data.contents);
-
-                        if (apiData.status && apiData.data) {
-                            displayResults(apiData.data);
-                            showStatus('Berhasil ditemukan!', 'success');
-                        } else {
-                            throw new Error(apiData.message || 'URL tidak valid atau video tidak dapat ditemukan.');
-                        }
-                    } else {
-                        throw new Error('Gagal mengambil data dari proxy.');
-                    }
-
-                } catch (error) {
-                    let errorMessage = 'Terjadi kesalahan tidak diketahui.';
-                    if (error.response) {
-                        errorMessage = `Kesalahan server: ${error.response.status}`;
-                    } else if (error.request) {
-                        errorMessage = 'Tidak ada respon dari server. Periksa koneksi internet Anda.';
-                    } else {
-                        errorMessage = error.message;
-                    }
-                    showStatus(`Terjadi kesalahan: ${errorMessage}`, 'error');
-                    resultContainer.style.display = 'none';
-                } finally {
-                    setLoading(false);
-                }
-            });
-
-            const setLoading = (isLoading) => {
-                submitBtn.disabled = isLoading;
-                if (isLoading) {
-                    btnText.style.display = 'none';
-                    loader.style.display = 'block';
-                } else {
-                    btnText.style.display = 'flex';
-                    loader.style.display = 'none';
-                }
-            };
-
-            const showStatus = (message, type) => {
-                statusMessage.textContent = message;
-                statusMessage.style.color = type === 'error' ? 'var(--error-color)' : (type === 'success' ? 'var(--success-color)' : 'var(--text-muted-color)');
-            };
-
-            const displayResults = (data) => {
-                videoTitle.textContent = data.title;
-                videoAuthor.textContent = data.author;
-                videoUsername.textContent = `@${data.username}`;
-                videoLikes.textContent = Number(data.likes).toLocaleString('id-ID');
-                videoViews.textContent = Number(data.views).toLocaleString('id-ID');
-                
-                videoPlayer.src = data.videoUrl;
-                audioPlayer.src = data.audioUrl;
-                
-                downloadVideoBtn.href = data.videoUrl;
-                downloadAudioBtn.href = data.audioUrl;
-                
-                resultContainer.style.display = 'block';
-            };
+        themeBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('dark-mode', document.body.classList.contains('dark-mode') ? 'enabled' : 'disabled');
         });
+
+        dlForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const url = inputUrl.value.trim();
+            
+            setLoading(true);
+            resultView.style.display = 'none';
+            updateStatus('Sedang Menghubungkan ke Server...', '#64748b');
+
+            try {
+                const apiEndpoint = `https://api.im-rerezz.xyz/api/dl/tiktokv2?url=${encodeURIComponent(url)}&apikey=${API_KEY}`;
+                const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(apiEndpoint)}`;
+                
+                const response = await axios.get(proxy);
+                const apiData = JSON.parse(response.data.contents);
+
+                if (apiData.status && apiData.data) {
+                    const d = apiData.data;
+                    vAuthor.textContent = d.author || 'Unknown';
+                    vLikes.textContent = Number(d.likes || 0).toLocaleString();
+                    vPlayer.src = d.videoUrl;
+                    linkV.href = d.videoUrl;
+                    linkA.href = d.audioUrl;
+                    
+                    resultView.style.display = 'block';
+                    updateStatus('Data Berhasil Diambil!', '#10b981');
+                } else {
+                    throw new Error(apiData.message || 'Tautan tidak didukung atau video privat.');
+                }
+            } catch (err) {
+                updateStatus('Error: ' + err.message, '#ef4444');
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(state) {
+            btnRun.disabled = state;
+            btnLabel.style.display = state ? 'none' : 'block';
+            btnLoad.style.display = state ? 'block' : 'none';
+        }
+
+        function updateStatus(msg, color) {
+            statusArea.textContent = msg;
+            statusArea.style.color = color;
+        }
     </script>
 </body>
-    </html>
+                    </html>
